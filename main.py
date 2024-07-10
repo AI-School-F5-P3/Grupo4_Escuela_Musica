@@ -67,7 +67,7 @@ def insert(data:AlumnoSchema):
 @app.put("/modificar/alumno/{alumno_id}",status_code=HTTP_204_NO_CONTENT)#el método put esta asociado a la actualización de datos en los verbos HTTP
 def update(data:AlumnoSchema,alumno_id:str):#como el id esta siendo pasado como url hay que crear un diccionario
     data = data.model_dump()
-    data[alumno_id] = alumno_id
+    data['alumno_id'] = alumno_id
     #print(data)     
     conn.update_alumno(data)
     return Response (status_code=HTTP_204_NO_CONTENT)

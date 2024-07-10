@@ -38,7 +38,7 @@ class UserConnection(): #creamos la clase UserConnection para realizar la conexi
         self.conn.commit()#para confirmar al método conn que deseamos introducir los datos
                         
     def update_alumno(self, data):
-        with self.conn.cursor() as curr:
+        with self.conn.cursor() as curr:    
             curr.execute("""
                 UPDATE "alumno" SET nombre = %(nombre)s, apellido = %(apellido)s, edad = %(edad)s, telefono = %(telefono)s, email = %(email)s, es_familiar = %(es_familiar)s WHERE alumno_id = %(alumno_id)s
             """,data)#este data no es una tupla, sino que es un diccionario, con lo cual no se colocan parantesis aquí (en el data)
