@@ -1,7 +1,9 @@
 from fastapi import FastAPI, Response
 from starlette.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_204_NO_CONTENT
 from model.user_connection import UserConnection #importamos la conexion de models a UserConnection
-from schema.user_schema import UserSchema
+from schema.alumno_schema import AlumnoSchema
+from schema.clase_schema import ClaseSchema
+from schema.profesor_schema import ProfesorSchema
 
 """
 En este archivo importamos los schema de cada tabla y trabamos los datos
@@ -21,49 +23,57 @@ app = FastAPI() #se inicializa la app
 conn = UserConnection() #instanciamos objeto conn
 
 
-@app.get("/", status_code=HTTP_200_OK) #se crea un decorador con la ruta base de la applicación
+@app.get("/mostrar/alumno", status_code=HTTP_200_OK) #se crea un decorador con la ruta base de la applicación
 def root():
     items = []#con esta lista hacemos que la terminal nos devuelva la info en formato de tuplas
-    for data in conn.read_all():
+    for data in conn.read_all_alumno():
         dictionary = {}#con este diccionario le damos formato a nuestros datos mostrados en la api
-        dictionary["id"] = data[0]
-        dictionary["name"] = data[1]
-        dictionary["phone"] = data[2]
+        dictionary["alumno_id"] = data[0]
+        dictionary["nombre"] = data[1]
+        dictionary["apellido"] = data[2]
+        dictionary["edad"] = data[3]
+        dictionary["telefono"] = data[4]
+        dictionary["email"] = data[5]
+        dictionary["es_familiar"] = data[6]
         items.append(dictionary)
     return items
     
     
 
-@app.get("/api/user/{id}", status_code=HTTP_200_OK) #se crea un decorador con la ruta base de la applicación
-def get_one(id:int):
+@app.get("/mostrar/alumno/{id}", status_code=HTTP_200_OK) #se crea un decorador con la ruta base de la applicación
+def get_one_alumno(id:int):
     dictionary = {}#con esto le damos formato a lo que nos devuelve la bd
-    data = conn.read_one(id)#con este método le indicamos a la api que nos retorne el mismo valor de id que se esta consultando
-    dictionary["id"] = data[0]
-    dictionary["name"] = data[1]
-    dictionary["phone"] = data[2]
+    data = conn.read_one_alumno(id)#con este método le indicamos a la api que nos retorne el mismo valor de id que se esta consultando
+    dictionary["alumno_id"] = data[0]
+    dictionary["nombre"] = data[1]
+    dictionary["apellido"] = data[2]
+    dictionary["edad"] = data[3]
+    dictionary["telefono"] = data[4]
+    dictionary["email"] = data[5]
+    dictionary["es_familiar"] = data[6]
     return dictionary
     #return id
 
 
 
-@app.post("/api/insert",status_code=HTTP_201_CREATED) #se crea un decorador con la ruta post
-def insert(user_data:UserSchema):
-    data = user_data.model_dump() #el método model_dump es el equivalente a dict
-    data.pop("id")#esto es para decirle a la API que no nos devuelva el id
-    conn.write(data)#esto escribirá en la db (ejecutará la sentencia SQL INSERT)
+@app.post("/agregar/alumno",status_code=HTTP_201_CREATED) #se crea un decorador con la ruta post
+def insert(data:AlumnoSchema):
+    data = data.model_dump() #el método model_dump es el equivalente a dict
+    data.pop("alumno_id")#esto es para decirle a la API que no nos devuelva el id
+    conn.write_alumno(data)#esto escribirá en la db (ejecutará la sentencia SQL INSERT)
     return Response (status_code=HTTP_201_CREATED)
 
 
-@app.put("/api/update/{id}",status_code=HTTP_204_NO_CONTENT)#el método put esta asociado a la actualización de datos en los verbos HTTP
-def update(user_data:UserSchema,id:int):#como el id esta siendo pasado como url hay que crear un diccionario
-    data = user_data.model_dump()
-    data["id"] = id
+@app.put("/modificar/alumno/{alumno_id}",status_code=HTTP_204_NO_CONTENT)#el método put esta asociado a la actualización de datos en los verbos HTTP
+def update(data:AlumnoSchema,alumno_id:str):#como el id esta siendo pasado como url hay que crear un diccionario
+    data = data.model_dump()
+    data[alumno_id] = alumno_id
     #print(data)     
-    conn.update(data)
+    conn.update_alumno(data)
     return Response (status_code=HTTP_204_NO_CONTENT)
 
 
-@app.delete("/api/delete/{id}",status_code=HTTP_204_NO_CONTENT) #ruta para eliminar registros de la tabla user
+@app.delete("/eliminar/alumno/{id}",status_code=HTTP_204_NO_CONTENT) #ruta para eliminar registros de la tabla user
 def delete(id:int):
-    conn.delete(id)
+    conn.delete_alumno(id)
     return Response (status_code=HTTP_204_NO_CONTENT)
