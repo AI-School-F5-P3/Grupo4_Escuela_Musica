@@ -15,6 +15,9 @@ class UserConnection(): #creamos la clase UserConnection para realizar la conexi
             print(err) 
             self.conn.close()#en el caso de que haya algún error de conexión con la bd el método self.conn cerrará la bd
     
+    
+    #TABLA ALUMNO
+
     def read_all_alumno(self):#nos permitirá leer todos los datos desde nuestra db a nuestra api
         with self.conn.cursor() as cur:
             data = cur.execute("""
@@ -51,6 +54,88 @@ class UserConnection(): #creamos la clase UserConnection para realizar la conexi
                 DELETE FROM "alumno" WHERE alumno_id = %s
             """,(alumno_id,))
         self.conn.commit()#La sentencia delete necesita el self.conn.commit() para confirmar que estamos realizando una modificación en la bd    
+
+    
+    #TABLA PROFESOR
+
+    def read_all_profesor(self):#nos permitirá leer todos los datos desde nuestra db a nuestra api
+        with self.conn.cursor() as cur:
+            data = cur.execute("""
+                               SELECT * FROM "profesor"
+                               """)
+            return data.fetchall()
+        
+    def read_one_profesor(self,profesor_id:int):
+        with self.conn.cursor() as cur:
+            data = cur.execute("""
+                SELECT * FROM "profesor" WHERE profesor_id = %s
+            """, (profesor_id,))
+            return data.fetchone()
+
+    
+    def write_profesor(self, data):#función para escribir dentro de la bd
+        with self.conn.cursor() as cur: #dentro de with si algo falla la bd se cerrará
+            cur.execute("""
+                INSERT INTO "profesor"(nombre) VALUES (%(nombre)s)
+                """,data)
+        self.conn.commit()#para confirmar al método conn que deseamos introducir los datos
+                        
+    def update_profesor(self, data):
+        with self.conn.cursor() as curr:    
+            curr.execute("""
+                UPDATE "profesor" SET nombre = %(nombre)s WHERE profesor_id = %(profesor_id)s
+            """,data)#este data no es una tupla, sino que es un diccionario, con lo cual no se colocan parantesis aquí (en el data)
+        self.conn.commit()
+
+
+    def delete_profesor(self,profesor_id):
+        with self.conn.cursor() as cur:
+            cur.execute("""
+                DELETE FROM "profesor" WHERE profesor_id = %s
+            """,(profesor_id,))
+        self.conn.commit()#La sentencia delete necesita el self.conn.commit() para confirmar que estamos realizando una modificació 
+
+    
+    #TABLA CLASE
+
+    def read_all_clase(self):#nos permitirá leer todos los datos desde nuestra db a nuestra api
+        with self.conn.cursor() as cur:
+            data = cur.execute("""
+                               SELECT * FROM "clase"
+                               """)
+            return data.fetchall()
+        
+    def read_one_clase(self,clase_id:int):
+        with self.conn.cursor() as cur:
+            data = cur.execute("""
+                SELECT * FROM "clase" WHERE clase_id = %s
+            """, (clase_id,))
+            return data.fetchone()
+
+    
+    def write_clase(self, data):#función para escribir dentro de la bd
+        with self.conn.cursor() as cur: #dentro de with si algo falla la bd se cerrará
+            cur.execute("""
+                INSERT INTO "clase"(alumno_id,fecha_inicio, fecha_fin, nivel, instrumento) VALUES (%(alumno_id)s,%(fecha_inicio)s,%(fecha_fin)s,%(nivel)s,%(instrumento)s)
+                """,data)
+        self.conn.commit()#para confirmar al método conn que deseamos introducir los datos
+                        
+    def update_clase(self, data):
+        with self.conn.cursor() as curr:    
+            curr.execute("""
+                UPDATE "clase" SET alumno_id = %(alumno_id)s, fecha_inicio = %(fecha_inicio)s, fecha_fin = %(fecha_fin)s, nivel = %(nivel)s, instrumento = %(instrumento)s WHERE clase_id = %(clase_id)s
+            """,data)#este data no es una tupla, sino que es un diccionario, con lo cual no se colocan parantesis aquí (en el data)
+        self.conn.commit()
+
+
+    def delete_clase(self,clase_id):
+        with self.conn.cursor() as cur:
+            cur.execute("""
+                DELETE FROM "clase" WHERE clase_id = %s
+            """,(clase_id,))
+        self.conn.commit()#La sentencia delete necesita el self.conn.commit() para confirmar que estamos realizando una modificació 
+
+
 
     def __def__(self):#Desctructor para que la conexion se cierre luego de finalizada la sesión
         self.conn.close()
