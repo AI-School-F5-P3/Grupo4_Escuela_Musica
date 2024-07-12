@@ -136,6 +136,87 @@ class UserConnection(): #creamos la clase UserConnection para realizar la conexi
         self.conn.commit()#La sentencia delete necesita el self.conn.commit() para confirmar que estamos realizando una modificació 
 
 
+    #TABLA PACK
+
+    def read_all_pack(self):#nos permitirá leer todos los datos desde nuestra db a nuestra api
+        with self.conn.cursor() as cur:
+            data = cur.execute("""
+                               SELECT * FROM "pack"
+                               """)
+            return data.fetchall()
+        
+    def read_one_pack(self,pack_id:int):
+        with self.conn.cursor() as cur:
+            data = cur.execute("""
+                SELECT * FROM "pack" WHERE pack_id = %s
+            """, (pack_id,))
+            return data.fetchone()
+
+    
+    def write_pack(self, data):#función para escribir dentro de la bd
+        with self.conn.cursor() as cur: #dentro de with si algo falla la bd se cerrará
+            cur.execute("""
+                INSERT INTO "pack"(descripcion, descuento_1, descuento_2, precio) VALUES (%(descripcion)s, %(descuento_1)s, %(descuento_2)s,%(precio)s)
+                """,data)
+        self.conn.commit()#para confirmar al método conn que deseamos introducir los datos
+                        
+    def update_pack(self, data):
+        with self.conn.cursor() as curr:    
+            curr.execute("""
+                UPDATE "pack" SET descripcion = %(descripcion)s, descuento_1 = %(descuento_1)s, descripcion = %(descripcion)s, descripcion = %(descripcion)s WHERE pack_id = %(pack_id)s
+            """,data)#este data no es una tupla, sino que es un diccionario, con lo cual no se colocan parantesis aquí (en el data)
+        self.conn.commit()
+
+
+    def delete_pack(self,pack_id):
+        with self.conn.cursor() as cur:
+            cur.execute("""
+                DELETE FROM "pack" WHERE pack_id = %s
+            """,(pack_id,))
+        self.conn.commit()#La sentencia delete necesita el self.conn.commit() para confirmar que estamos realizando una modificació 
+
+
+
+    #TABLA FACTURA
+
+    def read_all_factura(self):#nos permitirá leer todos los datos desde nuestra db a nuestra api
+        with self.conn.cursor() as cur:
+            data = cur.execute("""
+                               SELECT * FROM "factura"
+                               """)
+            return data.fetchall()
+        
+    def read_one_factura(self,factura_id:int):
+        with self.conn.cursor() as cur:
+            data = cur.execute("""
+                SELECT * FROM "factura" WHERE factura_id = %s
+            """, (factura_id,))
+            return data.fetchone()
+
+    
+    def write_factura(self, data):#función para escribir dentro de la bd
+        with self.conn.cursor() as cur: #dentro de with si algo falla la bd se cerrará
+            cur.execute("""
+                INSERT INTO "factura"(fecha_factura, importe, descuento_familiar, alumno_id, pack_id) VALUES (%(fecha_factura)s, %(importe)s, %(descuento_familiar)s, %(alumno_id)s, %(pack_id)s)
+                """,data)
+        self.conn.commit()#para confirmar al método conn que deseamos introducir los datos
+                        
+    def update_factura(self, data):
+        with self.conn.cursor() as curr:    
+            curr.execute("""
+                UPDATE "factura" SET fecha_factura = %(fecha_factura)s, importe = %(importe)s, descuento_familiar = %(descuento_familiar)s, alumno_id = %(alumno_id)s, pack_id = %(pack_id)s WHERE factura_id = %(factura_id)s
+            """,data)#este data no es una tupla, sino que es un diccionario, con lo cual no se colocan parantesis aquí (en el data)
+        self.conn.commit()
+
+
+    def delete_factura(self,factura_id):
+        with self.conn.cursor() as cur:
+            cur.execute("""
+                DELETE FROM "factura" WHERE factura_id = %s
+            """,(factura_id,))
+        self.conn.commit()#La sentencia delete necesita el self.conn.commit() para confirmar que estamos realizando una modificació 
+
+
 
     def __def__(self):#Desctructor para que la conexion se cierre luego de finalizada la sesión
         self.conn.close()

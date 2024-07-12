@@ -4,6 +4,9 @@ from model.user_connection import UserConnection #importamos la conexion de mode
 from schema.alumno_schema import AlumnoSchema
 from schema.clase_schema import ClaseSchema
 from schema.profesor_schema import ProfesorSchema
+from schema.pack_schema import PackSchema
+from schema.factura_schema import FacturaSchema
+
 
 """
 En este archivo importamos los schema de cada tabla y trabamos los datos
@@ -185,4 +188,111 @@ def update(data:ClaseSchema,clase_id:str):#como el id esta siendo pasado como ur
 @app.delete("/eliminar/clase/{id}",status_code=HTTP_204_NO_CONTENT) #ruta para eliminar registros de la tabla user
 def delete(id:int):
     conn.delete_clase(id)
+    return Response (status_code=HTTP_204_NO_CONTENT)
+
+
+#RUTAS TABLA PACK
+
+@app.get("/mostrar/pack", status_code=HTTP_200_OK) #se crea un decorador con la ruta base de la applicación
+def root():
+    items = []#con esta lista hacemos que la terminal nos devuelva la info en formato de tuplas
+    for data in conn.read_all_pack():
+        dictionary = {}#con este diccionario le damos formato a nuestros datos mostrados en la api
+        dictionary["pack_id"] = data[0]
+        dictionary["descripcion"] = data[1]
+        dictionary["descuento_1"] = data[2]
+        dictionary["descuento_2"] = data[3]
+        dictionary["precio"] = data[4]
+        items.append(dictionary)
+    return items
+    
+    
+@app.get("/mostrar/pack/{id}", status_code=HTTP_200_OK) #se crea un decorador con la ruta base de la applicación
+def get_one_pack(id:int):
+    dictionary = {}#con esto le damos formato a lo que nos devuelve la bd
+    data = conn.read_one_pack(id)#con este método le indicamos a la api que nos retorne el mismo valor de id que se esta consultando
+    dictionary["pack_id"] = data[0]
+    dictionary["descripcion"] = data[1]
+    dictionary["descuento_1"] = data[2]
+    dictionary["descuento_2"] = data[3]
+    dictionary["precio"] = data[4]
+    return dictionary
+    #return id
+
+
+@app.post("/agregar/pack",status_code=HTTP_201_CREATED) #se crea un decorador con la ruta post
+def insert(data:PackSchema):
+    data = data.model_dump() #el método model_dump es el equivalente a dict
+    data.pop("pack_id")#esto es para decirle a la API que no nos devuelva el id
+    conn.write_pack(data)#esto escribirá en la db (ejecutará la sentencia SQL INSERT)
+    return Response (status_code=HTTP_201_CREATED)
+
+
+@app.put("/modificar/pack/{pack_id}",status_code=HTTP_204_NO_CONTENT)#el método put esta asociado a la actualización de datos en los verbos HTTP
+def update(data:PackSchema,pack_id:str):#como el id esta siendo pasado como url hay que crear un diccionario
+    data = data.model_dump()
+    data['pack_id'] = pack_id
+    #print(data)     
+    conn.update_pack(data)
+    return Response (status_code=HTTP_204_NO_CONTENT)
+
+
+@app.delete("/eliminar/pack/{id}",status_code=HTTP_204_NO_CONTENT) #ruta para eliminar registros de la tabla pack
+def delete(id:int):
+    conn.delete_pack(id)
+    return Response (status_code=HTTP_204_NO_CONTENT)
+
+
+
+#RUTAS TABLA FACTURA
+
+@app.get("/mostrar/factura", status_code=HTTP_200_OK) #se crea un decorador con la ruta base de la applicación
+def root():
+    items = []#con esta lista hacemos que la terminal nos devuelva la info en formato de tuplas
+    for data in conn.read_all_factura():
+        dictionary = {}#con este diccionario le damos formato a nuestros datos mostrados en la api
+        dictionary["factura_id"] = data[0]
+        dictionary["fecha_factura"] = data[1]
+        dictionary["importe"] = data[2]
+        dictionary["descuento_familiar"] = data[3]
+        dictionary["alumno_id"] = data[4]
+        dictionary["pack_id"] = data[5]
+        items.append(dictionary)
+    return items
+    
+    
+@app.get("/mostrar/factura/{id}", status_code=HTTP_200_OK) #se crea un decorador con la ruta base de la applicación
+def get_one_factura(id:int):
+    dictionary = {}#con esto le damos formato a lo que nos devuelve la bd
+    data = conn.read_one_factura(id)#con este método le indicamos a la api que nos retorne el mismo valor de id que se esta consultando
+    dictionary["factura_id"] = data[0]
+    dictionary["fecha_factura"] = data[1]
+    dictionary["importe"] = data[2]
+    dictionary["descuento_familiar"] = data[3]
+    dictionary["alumno_id"] = data[4]
+    dictionary["pack_id"] = data[5]
+    return dictionary
+    #return id
+
+
+@app.post("/agregar/factura",status_code=HTTP_201_CREATED) #se crea un decorador con la ruta post
+def insert(data:FacturaSchema):
+    data = data.model_dump() #el método model_dump es el equivalente a dict
+    data.pop("factura_id")#esto es para decirle a la API que no nos devuelva el id
+    conn.write_factura(data)#esto escribirá en la db (ejecutará la sentencia SQL INSERT)
+    return Response (status_code=HTTP_201_CREATED)
+
+
+@app.put("/modificar/factura/{factura_id}",status_code=HTTP_204_NO_CONTENT)#el método put esta asociado a la actualización de datos en los verbos HTTP
+def update(data:FacturaSchema,factura_id:str):#como el id esta siendo pasado como url hay que crear un diccionario
+    data = data.model_dump()
+    data['factura_id'] = factura_id
+    #print(data)     
+    conn.update_factura(data)
+    return Response (status_code=HTTP_204_NO_CONTENT)
+
+
+@app.delete("/eliminar/factura/{id}",status_code=HTTP_204_NO_CONTENT) #ruta para eliminar registros de la tabla factura
+def delete(id:int):
+    conn.delete_factura(id)
     return Response (status_code=HTTP_204_NO_CONTENT)
