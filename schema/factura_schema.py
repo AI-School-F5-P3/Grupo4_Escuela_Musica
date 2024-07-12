@@ -13,3 +13,5 @@ class FacturaSchema(BaseModel):
     alumno_id: int
     pack_id: int
     
+    class Config:
+        orm_mode = True

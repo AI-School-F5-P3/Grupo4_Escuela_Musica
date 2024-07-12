@@ -13,6 +13,7 @@ class PackSchema(BaseModel):
     precio: float
     
 
-    
+    class Config:
+        orm_mode = True
 
     

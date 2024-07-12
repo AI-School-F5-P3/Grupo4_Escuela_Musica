@@ -9,7 +9,8 @@ class ProfesorSchema(BaseModel):
     profesor_id: Optional[int] = None #dado que nuestro id se estará autogenerando, con lo cual este dato no lo estaremos pasando
     nombre: str
     
-
+    class Config:
+        orm_mode = True
     
 
     

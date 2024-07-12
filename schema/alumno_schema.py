@@ -14,6 +14,7 @@ class AlumnoSchema(BaseModel):
     email: str
     es_familiar: bool
 
-    
+    class Config:
+        orm_mode = True
 
     

@@ -11,5 +11,6 @@ class UserSchema(BaseModel):
     phone: str
 
     
-
+    class Config:
+        orm_mode = True
     
