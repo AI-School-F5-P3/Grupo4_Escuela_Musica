@@ -116,14 +116,14 @@ class UserConnection(): #creamos la clase UserConnection para realizar la conexi
     def write_clase(self, data):#función para escribir dentro de la bd
         with self.conn.cursor() as cur: #dentro de with si algo falla la bd se cerrará
             cur.execute("""
-                INSERT INTO "clase"(alumno_id,fecha_inicio, fecha_fin, nivel, instrumento) VALUES (%(alumno_id)s,%(fecha_inicio)s,%(fecha_fin)s,%(nivel)s,%(instrumento)s)
+                INSERT INTO "clase" (alumno_id, nivel, instrumento, mes_anio, profesor_id) VALUES (%(alumno_id)s, %(nivel)s, %(instrumento)s, %(mes_anio)s, %(profesor_id)s)
                 """,data)
         self.conn.commit()#para confirmar al método conn que deseamos introducir los datos
                         
     def update_clase(self, data):
         with self.conn.cursor() as curr:    
             curr.execute("""
-                UPDATE "clase" SET alumno_id = %(alumno_id)s, fecha_inicio = %(fecha_inicio)s, fecha_fin = %(fecha_fin)s, nivel = %(nivel)s, instrumento = %(instrumento)s WHERE clase_id = %(clase_id)s
+                UPDATE "clase" SET alumno_id = %(alumno_id)s, nivel = %(nivel)s, instrumento = %(instrumento)s, mes_anio = %(mes_anio)s, profesor_id = %(profesor_id)s  WHERE clase_id = %(clase_id)s
             """,data)#este data no es una tupla, sino que es un diccionario, con lo cual no se colocan parantesis aquí (en el data)
         self.conn.commit()
 

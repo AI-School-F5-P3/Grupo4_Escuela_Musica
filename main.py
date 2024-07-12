@@ -143,10 +143,10 @@ def root():
         dictionary = {}#con este diccionario le damos formato a nuestros datos mostrados en la api
         dictionary["clase_id"] = data[0]
         dictionary["alumno_id"] = data[1]
-        dictionary["apellido"] = data[2]
-        dictionary["fecha_inicio"] = data[3]
-        dictionary["fecha_fin"] = data[4]
-        dictionary["instrumento"] = data[5]
+        dictionary["nivel"] = data[2]
+        dictionary["instrumento"] = data[3]
+        dictionary["mes_anio"] = data[4]
+        dictionary["profesor_id"] = data[5]
         items.append(dictionary)
     return items
     
@@ -157,10 +157,10 @@ def get_one_clase(id:int):
     data = conn.read_one_clase(id)#con este método le indicamos a la api que nos retorne el mismo valor de id que se esta consultando
     dictionary["clase_id"] = data[0]
     dictionary["alumno_id"] = data[1]
-    dictionary["apellido"] = data[2]
-    dictionary["fecha_inicio"] = data[3]
-    dictionary["fecha_fin"] = data[4]
-    dictionary["instrumento"] = data[5]
+    dictionary["nivel"] = data[2]
+    dictionary["instrumento"] = data[3]
+    dictionary["mes_anio"] = data[4]
+    dictionary["profesor_id"] = data[5]
     return dictionary
     #return id
 
