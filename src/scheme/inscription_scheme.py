@@ -3,14 +3,18 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class Incripciones(BaseModel):
+class Inscription(BaseModel):
 
-    id_inscripcion : Optional[int]
-    clas_teacher_id:int
-    student_id:int
-    class_price:str
-    inscription_discount:float
+    id_inscription : Optional[int]
+    id_class_teacher:int
+    id_student:int
+    price_class:str
+    discount_inscription:float
     family_discount:float
-    Discount_price:str
-    paid:str
+    final_price:str
+    paid: bool= False
     inscription_date: date
+    end_date: date
+
+
+     

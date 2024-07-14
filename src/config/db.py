@@ -6,10 +6,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import NullPool
 from decouple import config
-# from logger import Logs
+from logger import Logs
 
 
-# logger = Logs()
+logger = Logs()
 
 try:
     user = config('USER')
@@ -18,8 +18,8 @@ try:
     db = config("DB")
     port = config("PORT")
 
-    # url = f"postgresql+asyncpg://{user}:{password}@{host}:{port}/{db}"
-    url = f"postgresql+asyncpg://postgres:postgres@localhost:5432/MusicaRitmo"
+    url = f"postgresql+asyncpg://{user}:{password}@{host}:{port}/{db}"
+   
     
 
     # Conection with data base... Data base is called 
@@ -40,8 +40,8 @@ try:
 
     
 except SQLAlchemyError as e:
-    # logger.error("Error to connect base data:")
-    print(f"Base data connection Error: {e}")
+    logger.error("Error to connect database:")
+    print(f"Database connection Error: {e}")
     
     
     

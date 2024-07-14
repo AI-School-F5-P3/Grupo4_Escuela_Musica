@@ -1,37 +1,40 @@
-from fastapi import APIRouter, Depends
-from schemas.niveles import Niveles
-from services.niveles_services import Niveles_services
-from sqlalchemy.ext.asyncio import AsyncSession
-from config.db import get_async_session
+from fastapi import APIRouter, Depends  # Import APIRouter and Depends from FastAPI for routing and dependency injection
+from scheme.level_scheme import Level  # Import the Level schema
+from service.level_service import LevelService  # Import the LevelService class
+from sqlalchemy.ext.asyncio import AsyncSession  # Import AsyncSession for asynchronous database operations
+from config.db import get_async_session  # Import the function to get an async session
 
+# Create an APIRouter instance with a prefix and tags for routes related to levels
+router = APIRouter(prefix="/level", tags=["level"])
+# Instantiate the LevelService class
+level_service = LevelService()
 
-router = APIRouter(prefix="/niveles", tags=["niveles"])
-niveles_service = Niveles_services()
+# Consult all levels
+@router.get('/')
+# Define an async function to consult all levels, with dependency injection for the database session
+async def consult_levels(db: AsyncSession = Depends(get_async_session)):
+    return await level_service.consult_levels(db)  # Call the consult_levels method from level_service
 
+# Consult a level by id
+@router.get('/{name}')  # 'id' is the path parameter when the user accesses this URL
+# Define an async function to consult a level by id, with dependency injection for the database session
+async def consult_level(name: str, db: AsyncSession = Depends(get_async_session)):
+    return await level_service.consult_level(db, name)  # Call the consult_level method from level_service
 
-# COSULTAR TODOS LOS NIVELES
-@router.get("/niveles/")
-async def consultar_niveles(db: AsyncSession = Depends(get_async_session)):
-    return await niveles_service.consultar_niveles(db)
+# Add a new level
+@router.post('/')
+# Define an async function to add a new level, with dependency injection for the database session
+async def add_level(data: Level, db: AsyncSession = Depends(get_async_session)):
+    return await level_service.add_level(data, db)  # Call the add_level method from level_service
 
+# Edit a level's details
+@router.put('/{id}')
+# Define an async function to edit a level's details, with dependency injection for the database session
+async def edit_level(id: int, data: Level, db: AsyncSession = Depends(get_async_session)):
+    return await level_service.edit_level(id, data, db)  # Call the edit_level method from level_service
 
-# CONSULTAR UN NIVEL POR EL NOMBRE
-@router.get('/nivel/{nombre}')# nombre es el parámetro de ruta que es pero recibir cuanod el usuario acceda  a esta url
-async def consultar_nivel_por_nombre(nombre: str, db: AsyncSession = Depends(get_async_session)):
-    return await niveles_service.consultar_nivel(db, nombre)
-
-
-# AGREGAR UN NUEVO NIVEL
-@router.post("/niveles/")
-async def agregar_nivel(data: Niveles, db: AsyncSession = Depends(get_async_session)):
-    return await niveles_service.agregar_nivel(db, data)
-
-
-# EDITAR UN NIVEL
-@router.put('/niveles/{nombre}')
-async def editar_nivel(data: Niveles, nombre: str, db: AsyncSession = Depends(get_async_session)):
-    return await niveles_service.editar_nivel(db, nombre, data)
-
-
-
-
+# Delete a level
+@router.delete('/{id}')
+# Define an async function to delete a level, with dependency injection for the database session
+async def delete_level(id: int, db: AsyncSession = Depends(get_async_session)):
+    return await level_service.delete_level(id, db)  # Call the delete_level method from level_service

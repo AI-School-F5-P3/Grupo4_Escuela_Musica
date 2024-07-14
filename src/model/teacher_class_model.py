@@ -1,12 +1,10 @@
-from sqlalchemy import Table, Column, String
-from sqlalchemy.sql.sqltypes import Integer
+from sqlalchemy import Table, Column, String, Integer, ForeignKey
 from config.db import meta, engine, Base
 
 # Table teacher models
-class teacher_model(Base):
-    __tablename__ = "teacher"
-    id_teacher = Column(Integer, primary_key=True,  autoincrement=True)
-    name_teacher = Column(String(100))
-    surname_teacher = Column(String(100))
-    email_teacher = Column(String(50))
-
+class TeacherClassModel(Base):
+    __tablename__ = "teacher_class"
+    id_class_teacher = Column(Integer, primary_key=True, autoincrement=True)
+    id_class = Column(Integer, ForeignKey("class.id_class"))
+    id_teacher = Column(Integer, ForeignKey ("teacher.id_teacher"))
+    id_level = Column(Integer, ForeignKey("levels.id_level"))

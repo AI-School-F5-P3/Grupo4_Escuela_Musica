@@ -1,8 +1,8 @@
 from typing import Optional
 from pydantic import BaseModel
 
-class Clases(BaseModel):
+class Class(BaseModel):
     
-    id_clase: Optional[int]
-    class_name: str
-    pack_id: int
+    id_class: Optional[int]
+    name_class: str
+    id_pack: int

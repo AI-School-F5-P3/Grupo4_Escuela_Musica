@@ -1,11 +1,11 @@
-# from router import profesor_clases_router
-# from router import inscripciones_router
-# from router import profesores_router
+from router import teacher_class_router
+from router import inscription_router
+from router import teacher_router
 # from services.incripcion_automatica_services import ejecutar_funcion_en_hora_especifica
 from router import student_router
-# # from router import niveles_router
-# # from router import clases_router
-# # from router import packs_router
+from router import level_router
+from router import class_router
+from router import pack_router
 # # from router.pagos_router import pagos
 from fastapi import FastAPI
 from decouple import config
@@ -18,30 +18,30 @@ from config.db import Base, engine
 app = FastAPI(title="Musica Armonia API",description="API para administracion de escuela de musica")
 
 
-'''
-app.include_router(
-    fastapi_users.get_auth_router(auth_backend),
-    prefix="/auth",
-    tags=["Auth"],
-)
 
-app.include_router(
-    fastapi_users.get_register_router(UserRead, UserCreate),
-    prefix="/auth",
-    tags=["Auth"],
-)
+# app.include_router(
+#     fastapi_users.get_auth_router(auth_backend),
+#     prefix="/auth",
+#     tags=["Auth"],
+# )
 
-app.add_middleware(ErrorHandler)
-app.include_router(profesor_clases_router.router)
-app.include_router(inscripciones_router.router)
-app.include_router(profesores_router.router)
-app.include_router(niveles_router.router)
-app.include_router(alumnos_router.router)
-app.include_router(clases_router.router)
-app.include_router(packs_router.router)
-app.include_router(pagos)
-'''
+# app.include_router(
+#     fastapi_users.get_register_router(UserRead, UserCreate),
+#     prefix="/auth",
+#     tags=["Auth"],
+# )
+
+# app.add_middleware(ErrorHandler)
+app.include_router(teacher_class_router.router)
+app.include_router(inscription_router.router)
+app.include_router(teacher_router.router)
 app.include_router(student_router.router)
+app.include_router(level_router.router)
+app.include_router(class_router.router)
+app.include_router(pack_router.router)
+# app.include_router(pagos)
+
+
 # function to create all tables in the database if they do not exist
 
 # Base.metadata.create_all(bind=engine)
