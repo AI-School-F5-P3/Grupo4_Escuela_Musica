@@ -7,6 +7,7 @@ from schema.profesor_schema import ProfesorSchema
 from schema.pack_schema import PackSchema
 from schema.factura_schema import FacturaSchema
 from fastapi.middleware.cors import CORSMiddleware
+#import asyncpg
 
 
 """
@@ -19,10 +20,26 @@ debería estar esperando de cada una de las rutas creadas.
 Response 200: Por defecto todas las rutas esperan un código 200 pero se lo aclaramos. Singnifica ok.
 Response 201: Informa que se ha creado un nuevo registro.
 Response 204: Indica que se ha realizado una acción correctamente pero no se devuelve contenido.
+
+
+
+Para manejar excepciones en FastAPI al intentar modificar una factura con pack_id y alumno_id 
+inexistentes en la base de datos PostgreSQL, se utiliza la biblioteca asyncpg para manejar las conexiones 
+y los errores específicos de PostgreSQL. 
+
+To review: 
+
+#Configurar la conexión a la base de datos PostgreSQL utilizando asyncpg:
+DATABASE_URL = "postgresql://test:123@localhost:5432/escuela_armonia"
+
+async def get_db_connection():
+    return await asyncpg.connect(DATABASE_URL)
+
 """
 
 app = FastAPI() #se inicializa la app
 conn = UserConnection() #instanciamos objeto conn
+
 
 
 # Lista de orígenes permitidos (puedes agregar los que necesites)
