@@ -26,7 +26,7 @@ app = FastAPI(title="Musica Armonia API",description="API para administracion de
 #     tags=["Auth"],
 # )
 
-
+# endpoints incorporated in API
 app.include_router(teacher_class_router.router)
 app.include_router(inscription_router.router)
 app.include_router(teacher_router.router)
@@ -43,7 +43,6 @@ async def on_startup():
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
         # Ensure the database tables are created using Base - declarative_base instance
-
 
 
 # uvicorn app:main --host localhost --port 5000 --reload
