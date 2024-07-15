@@ -6,6 +6,7 @@ from schema.clase_schema import ClaseSchema
 from schema.profesor_schema import ProfesorSchema
 from schema.pack_schema import PackSchema
 from schema.factura_schema import FacturaSchema
+from fastapi.middleware.cors import CORSMiddleware
 
 
 """
@@ -22,6 +23,23 @@ Response 204: Indica que se ha realizado una acción correctamente pero no se de
 
 app = FastAPI() #se inicializa la app
 conn = UserConnection() #instanciamos objeto conn
+
+
+# Lista de orígenes permitidos (puedes agregar los que necesites)
+origins = [
+    "http://localhost",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000/"
+    "http://yourdomain.com",  # Cambiaremos esto por nuestro dominio cuando tengamos la app deploiada
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 #RUTAS TABLA ALUMNO

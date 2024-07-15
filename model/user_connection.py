@@ -163,7 +163,7 @@ class UserConnection(): #creamos la clase UserConnection para realizar la conexi
     def update_pack(self, data):
         with self.conn.cursor() as curr:    
             curr.execute("""
-                UPDATE "pack" SET descripcion = %(descripcion)s, descuento_1 = %(descuento_1)s, descripcion = %(descripcion)s, descripcion = %(descripcion)s WHERE pack_id = %(pack_id)s
+                UPDATE "pack" SET descripcion = %(descripcion)s, descuento_1 = %(descuento_1)s, descripcion = %(descuento_2)s, precio = %(precio)s WHERE pack_id = %(pack_id)s
             """,data)#este data no es una tupla, sino que es un diccionario, con lo cual no se colocan parantesis aquí (en el data)
         self.conn.commit()
 
