@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Date, Float, ForeignKey, Column,String, Integer,func
+from sqlalchemy import Boolean, Date, Float, ForeignKey, Column, String, Integer, func
 from config.db import Base
 
 #Table Inscriptions Model

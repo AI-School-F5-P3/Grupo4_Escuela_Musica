@@ -26,25 +26,26 @@ class InscriptionService:
             self.logger.warning("Inscriptions not found")
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= "No insctiptions exists")
         return JSONResponse(status_code=200, content=jsonable_encoder(result))
-    
 
-    async def consult_inscription_id(self, id:int, db: AsyncSession):
+
+
+    async def consult_inscription_id(self, id: int, db: AsyncSession):
         async with db.begin():
-            result = (await db.execute(select(InscriptionModel.filter(InscriptionModel.id_inscription == id)))).scalars().all()
-        self.logger.debug('Consult inscription by id: {id}')
+            result = (await db.execute(select(InscriptionModel).filter(InscriptionModel.id_inscription == id))).scalars().all()
+        self.logger.debug(f'Consult inscription by id: {id}')
         if not result:
-            self.logger.warning("Inscription with the id - {id}  not found")
-            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= "Inscription with the id - {id}  not found")
+            self.logger.warning(f"Inscription with the id - {id}  not found")
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= f"Inscription with the id - {id}  not found")
         return JSONResponse(status_code=200, content=jsonable_encoder(result))
-    
+   
     
     async def consult_paid_inscription(self, id:int, bolean: bool, db: AsyncSession):
         async with db.begin():
-            result = (await db.execute(select(InscriptionModel.filter(InscriptionModel.id_student == id, InscriptionModel.paid == bolean))))
+            result = (await db.execute(select(InscriptionModel).filter(InscriptionModel.id_student == id, InscriptionModel.paid == bolean)))
             rows = result.scalars().all()
-        self.logger.debug('Consult paid inscription by student id: {id}')
+        self.logger.debug(f'Consult paid inscription by student id: {id}')
         if not rows:
-            self.logger.warning("Paid inscription with the id - {id}  not found")
+            self.logger.warning(f"Paid inscription with the id - {id}  not found")
             raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail= "paid Inscription does not exist")
         return JSONResponse(status_code=200, content=jsonable_encoder(rows))
     
@@ -114,8 +115,7 @@ class InscriptionService:
             family_discount = student.family_discount
             inscription_date = data.inscription_date
             
-            
-            price_with_discount = 0.0  # Initialize the variable to ensure it is assigned
+            # price_with_discount = 0.0  # Initialize the variable to ensure it is assigned
             
 
             if num_times_inscription == 0:
@@ -127,8 +127,10 @@ class InscriptionService:
                 applied_discount = first_discount
             else:
                 price = price_pack * (1 - second_discount)
-                price_con_discount = price * (1 -  family_discount)
+                price_with_discount = price * (1 -  family_discount)
                 applied_discount = second_discount
+
+
 
             # Create a new instance of the Inscripcion model with the data provided
             new_inscription = InscriptionModel(
@@ -140,7 +142,7 @@ class InscriptionService:
                 price_with_discount = price_with_discount,
                 paid=False,
                 inscription_date=inscription_date,  # Fecha actual
-                end_date=inscription_date + relativedelta(months=1)
+                end_date= inscription_date + relativedelta(months=1)
                 # With relativedelta(months=1) I add 1 month automatically
             )
             db.add(new_inscription)
@@ -157,11 +159,10 @@ class InscriptionService:
                 self.logger.warning('Registration not found to edit')
                 raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="inscription not found")
 
-            inscription.price_class=data.price_class,
-            inscription.discount_inscription=data.discount_inscription,
-            inscription.discount_familiar = data.discount_familiar,
-            inscription.price_with_discount=data.price_with_discount,
+           
             inscription.paid = data.paid
+            inscription.inscription_date = data.inscription_date
+
             await db.commit()
             self.logger.info("Registration has been modified")
             return JSONResponse(status_code=200, content={"message": "Registration has been modified"})

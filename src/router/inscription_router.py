@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from config.db import get_async_session
 
 # RUTAS
-router = APIRouter( prefix="/inscription", tags=["inscription"])
+router = APIRouter(tags=["inscription"])
 inscription_serv = InscriptionService()
 
 
