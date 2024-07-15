@@ -23,14 +23,14 @@ async def consult_inscription_by_id(id:int, db: AsyncSession = Depends(get_async
 
 # consult inscription PAGADAS POR ID ALUMNO
 @router.get("/paid_inscription/{id}")
-async def consult_paid_inscription( id:int, boleano: bool, db: AsyncSession = Depends(get_async_session)):
-    return await inscription_serv.consult_paid_inscription(id, boleano, db)
+async def consult_paid_inscription( id:int, bolean: bool, db: AsyncSession = Depends(get_async_session)):
+    return await inscription_serv.consult_paid_inscription(id, bolean, db)
 
 
 # CREAR UNA NUEVA INSCRIPCIÓN
 @router.post("/inscription")
 async def create_inscription(data:Inscription, db: AsyncSession = Depends(get_async_session)):
-    return await inscription_serv.create_inscription(data, db)
+    return await inscription_serv.create_new_inscription(data, db)
 
 
 # EDITAR UNA INSCRIPCIÓN
