@@ -10,7 +10,7 @@ class UserConnection(): #creamos la clase UserConnection para realizar la conexi
     
     def __init__(self):#Constructor para inicial la conexión con la bd
         try:
-            self.conn = psycopg.connect("dbname=escuela_armonia user=test password=123 host=localhost port=5432") #esto es igual a la conexión de nuestra bd
+            self.conn = psycopg.connect("dbname=escuela_armonia user=postgres password=5678 host=localhost port=5432") #esto es igual a la conexión de nuestra bd
         except psycopg.OperationalError as err:
             print(err) 
             self.conn.close()#en el caso de que haya algún error de conexión con la bd el método self.conn cerrará la bd
