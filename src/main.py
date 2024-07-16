@@ -5,6 +5,7 @@ from router import student_router
 from router import level_router
 from router import class_router
 from router import pack_router
+from csv_export import csv_export_router
 from fastapi import FastAPI
 from decouple import config
 import uvicorn
@@ -34,6 +35,7 @@ app.include_router(student_router.router)
 app.include_router(level_router.router)
 app.include_router(class_router.router)
 app.include_router(pack_router.router)
+app.include_router(csv_export_router.router)
 
 
 

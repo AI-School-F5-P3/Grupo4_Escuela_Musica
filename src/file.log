@@ -215,3 +215,39 @@
 2024-07-15 20:57:57,863 [DEBUG] Consulting the pack
 2024-07-15 21:01:54,679 [DEBUG] Consulting the pack
 2024-07-15 21:01:54,692 [INFO] The new registration has been registered
+2024-07-16 11:56:15,930 [DEBUG] Consulting all teachers by class
+2024-07-16 11:58:24,770 [INFO] A new teacher has registered
+2024-07-16 12:00:31,414 [INFO] The teacher has been changed
+2024-07-16 12:01:51,181 [INFO] The teacher has been changed
+2024-07-16 12:04:14,672 [INFO] The teacher has been removed
+2024-07-16 12:04:49,691 [DEBUG] Consult for all students
+2024-07-16 12:06:15,606 [INFO] Student has been added
+2024-07-16 12:07:05,023 [DEBUG] Consult student with id: 13
+2024-07-16 12:08:41,127 [INFO] Student has been modified
+2024-07-16 12:13:39,345 [INFO] Student has been modified
+2024-07-16 12:16:36,054 [DEBUG] Consult for every class
+2024-07-16 12:19:23,356 [INFO] A new class has been registered
+2024-07-16 12:22:22,379 [INFO] The class has been changed
+2024-07-16 12:23:41,821 [INFO] The class has been removed
+2024-07-16 12:24:08,831 [DEBUG] Consult for every level
+2024-07-16 12:25:10,597 [INFO] A new teacher has registered
+2024-07-16 12:25:38,862 [DEBUG] Querying level by name
+2024-07-16 12:25:38,862 [WARNING] Level not found
+2024-07-16 12:26:12,445 [INFO] The level has been changed
+2024-07-16 12:26:35,941 [INFO] The level has been removed
+2024-07-16 12:35:42,122 [INFO] Student has been modified
+2024-07-16 12:52:32,153 [DEBUG] Consulting all the packs
+2024-07-16 12:53:14,393 [INFO] A new pack has been registered
+2024-07-16 13:19:51,391 [DEBUG] Consult student with id: 1
+2024-07-16 13:20:11,037 [DEBUG] Consult for all students
+2024-07-16 13:23:03,762 [INFO] The pack has been modified
+2024-07-16 13:23:42,210 [INFO] The pack has been removed
+2024-07-16 13:23:43,980 [WARNING] The pack to delete was not found
+2024-07-16 13:25:17,159 [DEBUG] Consulting all teachers by class
+2024-07-16 13:29:33,485 [INFO] A new teacher has been registered for classes and level
+2024-07-16 13:30:10,504 [DEBUG] Consulting teacher by classes and level by id
+2024-07-16 13:31:45,820 [INFO] The teacher has been modified by class and level
+2024-07-16 13:34:07,149 [DEBUG] Consult all inscriptions
+2024-07-16 13:34:31,618 [DEBUG] Consult inscription by id: 1
+2024-07-16 13:51:11,159 [DEBUG] Consulting the pack
+2024-07-16 13:51:11,171 [INFO] The new registration has been registered
