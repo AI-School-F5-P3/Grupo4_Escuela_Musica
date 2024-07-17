@@ -1,0 +1,6 @@
+# information about paths to the source code for pytest
+[tool.pytest.ini_options]
+pythonpath = [
+  ".", "src",
+]
+asyncio_mode="auto"

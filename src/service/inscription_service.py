@@ -10,7 +10,8 @@ from sqlalchemy import and_, text
 from service.teacher_class_service import TeacherClassService
 from logger import Logs
 from sqlalchemy.future import select
-from sqlalchemy import delete
+from sqlalchemy import delete, func
+from collections import defaultdict
 
 
 class InscriptionService:
@@ -180,6 +181,25 @@ class InscriptionService:
             await db.commit()
             self.logger.info('Registration has been removed')
             return JSONResponse(status_code=200, content={"message": "Registration has been removed"})
+        
+
+     # SEGREGRAR INSCRIPCIONES POR MES
+    async def inscriptions_by_month(self, db: AsyncSession):
+        result = (await db.execute(select(InscriptionModel,func.date_trunc('month', InscriptionModel.inscription_date).label('month')))).all()
+        self.logger.debug('Consult inscriptions by months')
+        if not result:
+            self.logger.warning('There is no inscription')
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='There is no inscription')
+
+        inscriptions_by_month = defaultdict(list) # group inscriptions by month
+        for inscription, month in result:
+        # Format the month as "Month Year"
+            formatted_month = month.strftime("%B %Y")
+            inscriptions_by_month[formatted_month].append(inscription)  # append inscriptions to the corresponding month
+
+        self.logger.info('Consult inscriptions by months')
+        return JSONResponse(status_code=200, content=jsonable_encoder(inscriptions_by_month))
+
         
         
         

@@ -24,8 +24,7 @@ try:
 
     # Conection with data base... Data base is called 
     engine = create_async_engine(url, poolclass=NullPool)
-    # Save the connection in a variable to use in other files
-    # conexion = engine.connect()
+  
     # MetaData act like a container to save the information on the tables, columns
     # relaciones y otros elementos de la base de datos. Se utiliza para definir y manipular estructuras de la base de datos en SQLAlchemy.
     meta = MetaData()

@@ -3,6 +3,7 @@ from scheme.inscription_scheme import Inscription
 from service.inscription_service import InscriptionService
 from sqlalchemy.ext.asyncio import AsyncSession
 from config.db import get_async_session
+from typing import List, Dict
 
 # RUTAS
 router = APIRouter(tags=["inscription"])
@@ -43,3 +44,8 @@ async def edit_inscription(id: int, data:Inscription, db: AsyncSession = Depends
 @router.delete("/inscription/{id}")
 async def delete_inscription(id: int, db: AsyncSession = Depends(get_async_session)):
    return await inscription_serv.delete_inscription(id, db)
+
+
+@router.get("/inscriptions_by_month", response_model=Dict[str, List[Inscription]])
+async def get_inscripions_month(db: AsyncSession = Depends(get_async_session)):
+   return await inscription_serv.inscriptions_by_month(db) 
