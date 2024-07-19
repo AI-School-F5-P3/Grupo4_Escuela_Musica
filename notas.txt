@@ -1,0 +1,7 @@
+Uviconr:
+
+Uvicorn nos permite levantar un servidor web para correr las aplicaciones de fastAPI:
+uvicorn main:app --reload (--reload es una bandera que hace que el servidor este oyendo todo el tiempo)
+cuando mandemos a prod el proyecto la bandera --reload no debería estar más.
+
+
